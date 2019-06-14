@@ -49,9 +49,27 @@ def login_view(request):
     return render(request, 'login.html', context)
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('home')
+def login_view(request):
+    error_message = ''
+    if request.method == 'POST':
+        next = request.POST.get('next') or None
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None and next is not None:
+                login(request, user)
+                return redirect(next)
+            elif user is not None and next is None:
+                login(request, user)
+                return redirect('home')
+            else:
+                error_message = 'Sorry, your username or password was invalid'
+    
+    form = LoginForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'login.html', context)
 
 
 class CreateSkill(LoginRequiredMixin, CreateView):
