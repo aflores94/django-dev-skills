@@ -43,7 +43,7 @@ def login_view(request):
                 return redirect('home')
             else:
                 error_message = 'Sorry, your username or password was invalid'
-    
+
     form = LoginForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'login.html', context)
