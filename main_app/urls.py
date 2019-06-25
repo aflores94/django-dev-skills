@@ -8,4 +8,4 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('add_skill/', views.CreateSkill.as_view(), name="add_skill"),
     path('skills_index/', views.SkillsIndex.as_view(), name="skills_index"),
-]   ``
+]
